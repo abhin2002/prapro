@@ -5,7 +5,7 @@ import urllib.error
 
 class Downloader:
     def __init__(self, pq_file: str):
-        self.df = pd.read_parquet(pq_file)
+        self.df = pd.read_parquet(pq_file, columns=["URL"])
         self.base_path = './downloads/'
         if not os.path.exists(self.base_path):
             os.makedirs(self.base_path)
