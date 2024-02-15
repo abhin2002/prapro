@@ -3,11 +3,10 @@ import pyarrow.parquet as pq
 import requests
 from tqdm import tqdm
 
-# Load the parquet file
-table = pq.read_table('links.parquet')
+
 
 # Get the first 10,000 URLs
-urls = table['URL'][:10000]
+urls = pq.read_table("links.parquet", columns = ["URL"])["URL"][:10000].to_numpy() 
 
 # Create a directory to store the images
 os.makedirs('images', exist_ok=True)
@@ -22,9 +21,12 @@ for i, url in enumerate(tqdm(urls, desc='Downloading images')):
     try:
         response = requests.get(url, headers=headers, stream=True)
         response.raise_for_status()
-
+        
+        file_ext = os.path.splitext(url)[1]
+        if file_ext.lower() not in ['.jpg', '.jpeg', '.png', '.gif']:
+            file_ext = '.jpg'
         # Save the image to a file
-        with open(f'images/image_{i}.jpg', 'wb') as f:
+        with open(f'images/image_{i}{file_ext}', 'wb') as f:
             for chunk in response.iter_content(chunk_size=8192):
                 f.write(chunk)
 
