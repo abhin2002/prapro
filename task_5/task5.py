@@ -3,6 +3,7 @@ import urllib.request
 import pandas as pd
 import urllib.error
 
+
 class Downloader:
     def __init__(self, pq_file: str):
         self.df = pd.read_parquet(pq_file, columns=["URL"])
@@ -20,14 +21,20 @@ class Downloader:
     def __getitem__(self, key):
         if isinstance(key, int):
             url = self.df.iloc[key]['URL']
-            local_path = self.base_path + f'image_{key}.jpg'
+            file_ext = os.path.splitext(url)[1]
+            if file_ext.lower() not in ['.jpg', '.jpeg', '.png', '.gif']:
+                file_ext = '.jpg'
+            local_path = self.base_path + f'image_{key}{file_ext}'
             return self.download_image(url, local_path)
         elif isinstance(key, slice):
             start, stop, step = key.indices(len(self.df))
             local_paths = []
             for i in range(start, stop, step):
                 url = self.df.iloc[i]['URL']
-                local_path = self.base_path + f'image_{i}.jpg'
+                file_ext = os.path.splitext(url)[1]
+                if file_ext.lower() not in ['.jpg', 'jpeg', '.png', '.gif']:
+                    file_ext = '.jpg'
+                local_path = self.base_path + f'image_{i}{file_ext}'
                 local_paths.append(self.download_image(url, local_path))
             return local_paths
 

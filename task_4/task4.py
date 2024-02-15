@@ -2,7 +2,7 @@ import os
 import pyarrow.parquet as pq
 import requests
 from tqdm import tqdm
-import pandas as pd
+
 
 
 # Get the first 10,000 URLs
@@ -21,9 +21,12 @@ for i, url in enumerate(tqdm(urls, desc='Downloading images')):
     try:
         response = requests.get(url, headers=headers, stream=True)
         response.raise_for_status()
-
+        
+        file_ext = os.path.splitext(url)[1]
+        if file_ext.lower() not in ['.jpg', '.jpeg', '.png', '.gif']:
+            file_ext = '.jpg'
         # Save the image to a file
-        with open(f'images/image_{i}.jpg', 'wb') as f:
+        with open(f'images/image_{i}{file_ext}', 'wb') as f:
             for chunk in response.iter_content(chunk_size=8192):
                 f.write(chunk)
 
