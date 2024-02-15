@@ -28,7 +28,7 @@ class Downloader:
                 file_ext = '.jpg'
             local_path = self.base_path + f'image_{key}{file_ext}'
             future = self.executor.submit(self.download_image, url, local_path)
-            return future
+            return future.result()
         elif isinstance(key, slice):
             start, stop, step = key.indices(len(self.df))
             futures = []
@@ -39,7 +39,7 @@ class Downloader:
                     file_ext = '.jpg'
                 local_path = self.base_path + f'image_{i}{file_ext}'
                 future = self.executor.submit(self.download_image, url, local_path)
-                futures.append(future)
+                futures.append(future.result())
             return futures
 
 start_time = time.time()
