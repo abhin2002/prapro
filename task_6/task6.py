@@ -40,7 +40,8 @@ class Downloader:
                 local_path = self.base_path + f'image_{i}{file_ext}'
                 future = self.executor.submit(self.download_image, url, local_path)
                 futures.append(future)
-            return futures
+                paths = [ future.result() for future in futures]
+            return paths
 
 start_time = time.time()
 
@@ -53,13 +54,8 @@ print(f'Downloaded image path: {path}')
 # Download the first 10 images
 paths = d[0:10]
 
-results = []
-for p in paths:
-    result = p.result()
-    results.append(result)
 
-
-print(f'Downloaded image paths: {results}')
+print(f'Downloaded image paths: {paths}')
 
 end_time = time.time()
 
