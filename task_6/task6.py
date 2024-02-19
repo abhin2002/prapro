@@ -27,8 +27,8 @@ class Downloader:
             if file_ext.lower() not in ['.jpg', '.jpeg', '.png', '.gif']:
                 file_ext = '.jpg'
             local_path = self.base_path + f'image_{key}{file_ext}'
-            future = self.executor.submit(self.download_image, url, local_path)
-            return future.result()
+            
+            return self.download_image(url,local_path)
         elif isinstance(key, slice):
             start, stop, step = key.indices(len(self.df))
             futures = []
@@ -39,7 +39,7 @@ class Downloader:
                     file_ext = '.jpg'
                 local_path = self.base_path + f'image_{i}{file_ext}'
                 future = self.executor.submit(self.download_image, url, local_path)
-                futures.append(future.result())
+                futures.append(future)
             return futures
 
 start_time = time.time()
@@ -52,7 +52,14 @@ print(f'Downloaded image path: {path}')
 
 # Download the first 10 images
 paths = d[0:10]
-print(f'Downloaded image paths: {paths}')
+
+results = []
+for p in paths:
+    result = p.result()
+    results.append(result)
+
+
+print(f'Downloaded image paths: {results}')
 
 end_time = time.time()
 
