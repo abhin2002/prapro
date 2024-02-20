@@ -2,6 +2,7 @@ import os
 import urllib.request
 import pandas as pd
 import urllib.error
+import time
 
 
 class Downloader:
@@ -38,6 +39,8 @@ class Downloader:
                 local_paths.append(self.download_image(url, local_path))
             return local_paths
 
+start_time = time.time()
+
 d = Downloader('../task_4/links.parquet')
 
 # Download the first image
@@ -47,3 +50,9 @@ print(f'Downloaded image path: {path}')
 # Download the first 10 images
 paths = d[0:10]
 print(f'Downloaded image paths: {paths}')
+
+end_time = time.time()
+
+execution_time = end_time - start_time
+
+print(f"Execution time: {execution_time} seconds")
