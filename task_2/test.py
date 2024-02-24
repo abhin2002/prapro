@@ -1,5 +1,5 @@
-
 import numpy as np
+
 
 def test_array_creation():
     # Original array creation
@@ -9,7 +9,11 @@ def test_array_creation():
     bytes_array = array1.tobytes()
 
     # Recreate array from bytes
-    array_recreated = np.frombuffer(bytes_array, dtype=array1.dtype).reshape(array1.shape)
+    array_recreated = np.frombuffer(bytes_array, dtype=array1.dtype).reshape(
+        array1.shape
+    )
 
     # Assertion to check if the original array and the recreated array are the same
-    assert np.array_equal(array1, array_recreated), "The original array and the recreated array are not the same."
+    assert np.array_equal(
+        array1, array_recreated
+    ), "The original array and the recreated array are not the same."

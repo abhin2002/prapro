@@ -1,15 +1,12 @@
 from magika import Magika
 
+
 def main():
     # Initialize Magika
     magika = Magika()
 
     # Example file paths
-    file_paths = [
-        "downloads/image_5.jpg",
-        "task6.py",
-        "OSS.png"
-    ]
+    file_paths = ["downloads/image_5.jpg", "task6.py", "OSS.png"]
 
     # Process each file
     for file_path in file_paths:
@@ -28,6 +25,7 @@ def main():
         print(f"MIME Type: {result.output.mime_type}")
         print(f"Magic: {result.output.magic}")
         print(f"Description: {result.output.description}\n")
+
 
 if __name__ == "__main__":
     main()
