@@ -17,6 +17,3 @@ def test_download_multiple_images(downloader):
         if isinstance(path, str) and not path.startswith('An error occurred'):  # Check if path is a string and not an error message
             assert os.path.exists(path)
 
-
-if __name__ == "__main__":
-    pytest.main([__file__])

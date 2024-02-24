@@ -18,5 +18,3 @@ def test_download_multiple_images(downloader):
             assert os.path.exists(path)
 
 
-if __name__ == "__main__":
-    pytest.main([__file__])
