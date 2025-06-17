@@ -49,11 +49,12 @@ class Solution(object):
                 l2 = l2.next
 
         result = head.next
+        list = []
         while result:
-            print(result.val, end=" -> ")
+            list.append(result.val)
             result = result.next
 
-        return head.next
+        return list
         
 
 l1 = [9,9,9,9,9,9,9]
